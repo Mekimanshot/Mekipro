@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <%- include('./css/style'); %>
+    <%- include('./css/style2'); %>
+    <!-- BOOTSTRAP CDN -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <%- include('tap2')%>
+    <div class="clearfix"></div>
+
+    <header class="header">
+        <div class="container"><h1></h1>
+            <div class="header_area">
+                
+                <font color= #FFFFFF ><h1>ยินดีต้อนรับเข้าสู่เว็บ<br> ยืม - คืนอุปกรณ์กีฬา</h1></font>
+            </div>
+        </div>
+    </header>
+    <div class="sectiontitle">
+        <center> <h1 class="heading">รายการ อุปกรณ์</h1></center><br><br><br><br>
+      </div>
+      <center>
+      
+    <div class="row" id="showproduct">
+     
+      </div>
+      
+      
+
+
+
+
+
+
+      
+
+<script>
+// Get the modal
+var modal = document.getElementById('id01','id02','id03','id04','id05','id06');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+
+const show = document.querySelector('#showproduct');
+fetch('http://localhost:3000/showproduct')
+                        .then(response => response.json())
+                        .then(data => {
+                          for (let i = 0; i < data.length; i++) {
+                            show.innerHTML += ` <div class="col-sm">
+        <div class="div1"><center>ไม่มีรูป</center></div>
+        <p style="font-size: 18px">${data[i].product}</p>
+        <p style="font-size: 18px">Stock ${data[i].stock}</p>
+        
+        <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">เช่า</button>
+        <div id="id01" class="modal">
+  
+          <form class="modal-content animate" style="width: 50%;" action="" method="post">
+            <div class="imgcontainer">
+              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+              <img src="/image/tod.jpg" width="50" alt="Avatar" class="avatar">
+            </div>
+        
+            <div class="container">
+            <p> ชื่อ : ${data[i].product} </p>
+           
+              <label for="uname">รหัสนักศึกษา</label>
+              <input type="text" placeholder="ID" name="uname" required><br><br>
+            เวลายืม :
+               <input type="datetime-local" id="birthdaytime" name="birthdaytime"><br><br>
+              <p style="color:red">หมายเหตุ : ให้นักศึกษาจองล่วงหน้าได้ไม่เกิน3วันถ้าเกินระบบจะไม่ทำการอนุมัติ<br>และต้องนำอุปกรณ์มาคืนภายใน19:00</p>
+                
+              <button type="submit">ยืนยัน</button>
+            </div>
+        
+           
+          
+          </form>
+        </div>
+      </div>`
+                          }
+                        })
+                        .catch(error => console.error(error));
+</script>
+</body>
+</html>
