@@ -66,7 +66,11 @@ app.get('/register', (req, res, next) => {
 app.get('/admin', (req, res, next) => {
     res.render('admin')
 })
+app.get('/addproduct', (req, res, next) => {
 
+    res.render('addproduct');
+
+})
 
 app.get('/pro', (req, res, next) => {
     res.render('pro', { name: req.session.user_name })
