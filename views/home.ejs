@@ -54,7 +54,7 @@ window.onclick = function(event) {
 
 
 const show = document.querySelector('#showproduct');
-fetch('http://localhost:3000/showproduct')
+fetch('http://mekiman.app.ruk-com.cloud/showproduct')
                         .then(response => response.json())
                         .then(data => {
                           for (let i = 0; i < data.length; i++) {
