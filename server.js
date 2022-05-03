@@ -9,7 +9,6 @@ const { body, validationResult } = require('express-validator');
 const axios = require('axios');
 const app = express();
 const { redirect } = require('express/lib/response');
-
 /*const con = mysql.createPool({
     host: "node31559-endows.app.ruk-com.cloud",
     user: "root",
@@ -40,6 +39,9 @@ const ifNotLoggedin = (req, res, next) => {
     next();
 }
 const ifLoggedin = (req, res, next) => {
+    if (req.session.status == 'admin') {
+        return res.redirect('/admin');
+    }
     if (req.session.isLoggedIn) {
         return res.redirect('/home');
     }
@@ -63,8 +65,14 @@ app.get('/', ifNotLoggedin, (req, res, next) => {
 app.get('/register', (req, res, next) => {
     res.render('register')
 })
-app.get('/admin', (req, res, next) => {
-    res.render('admin')
+app.get('/admin', (req, res) => {
+    if (req.session.status == "admin") {
+
+        return res.render('admin', {
+            name: req.session.user_name,
+        })
+
+    }
 })
 app.get('/addproduct', (req, res, next) => {
 
@@ -86,11 +94,23 @@ app.get("/showproduct", (req, res) => {
 })
 
 
-app.post('/deleteprofile', [body('name_user', '').trim().not().isEmpty(),], (req, res) => {
+app.post('/deleteprofile', [body('user_name', '').trim().not().isEmpty(),], (req, res) => {
     const { name_user } = req.body
     dbConnection.execute("DELETE FROM `users` WHERE `name`=?", [name_user])
     res.redirect('user')
 
+})
+app.post('/borrow', [body('chek', '').trim().not().isEmpty(), body('id', '').trim().not().isEmpty(),], (req, res) => {
+    const { chek, id } = req.body
+    console.log(chek, id)
+    if (chek == "sum") {
+        //DATE
+        var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date + ' ' + time;
+        console.log(dateTime)
+    }
 })
 
 
@@ -157,6 +177,7 @@ app.post('/', ifLoggedin, [
         bcrypt.compare(user_pass, rows[0].password).then((result) => {
             if (rows[0].rank == "admin") {
                 console.log('yes')
+                req.session.isLoggedIn = true;
                 req.session.status = rows[0].rank;
                 req.session.userID = rows[0].id;
                 req.session.user_name = rows[0].name;
@@ -168,13 +189,13 @@ app.post('/', ifLoggedin, [
                 req.session.userID = rows[0].id;
                 req.session.user_name = rows[0].name;
                 return res.redirect('/');
-                
+
             }
             console.log(rows);
         })
             .catch(err => {
                 if (err) throw err;
-                
+
             })
     }
     )
@@ -185,10 +206,11 @@ app.post('/', ifLoggedin, [
 })
 
 // END OF LOGIN PAGE
+
 app.get('/product', (req, res) => {
     if (req.session.status == "admin") {
         console.log('yes')
-        con.query("SELECT * FROM product",(err,rows) => {
+        con.query("SELECT * FROM product", (err, rows) => {
             console.log(rows);
             res.render('product', {
                 name: req.session.user_name,
@@ -203,16 +225,16 @@ app.get('/user', (req, res) => {
     if (req.session.status == "admin") {
         console.log('yes')
 
-        con.query("SELECT * FROM users",(err,rows)=>{
-        
+        con.query("SELECT * FROM users", (err, rows) => {
+
             console.log(rows);
             res.render('user', {
                 name: req.session.user_name,
                 result: rows
             });
         })
-           
-        
+
+
 
     }
     console.log('no')
@@ -224,7 +246,7 @@ app.post('/addproducts', [
     body('product_image', '').trim().not().isEmpty(),
 ], (req, res) => {
 
-    const { product_name, product_stock,product_id, product_image } = req.body
+    const { product_name, product_stock, product_id, product_image } = req.body
     async function call() {
         dbConnection.execute("INSERT INTO `product`(`product`, `stock`, `img`) VALUES (?,?,?)", [product_name, product_stock, product_image])
     }
@@ -260,4 +282,4 @@ app.get("/showuser", (req, res) => {
 })
 
 
-app.listen(11341, () => console.log("Server is Running..."));
+app.listen(3000, () => console.log("Server is Running..."));

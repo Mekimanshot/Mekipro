@@ -23,7 +23,7 @@
             </div>
         </div>
     </header>
-    <div class="sectiontitle">
+    <div class="sectiontitle"><br>
         <center> <h1 class="heading">รายการ อุปกรณ์</h1></center><br><br><br><br>
       </div>
       <center>
@@ -40,7 +40,7 @@
 
 
       
-
+      <%- include('footer')%>
 <script>
 // Get the modal
 var modal = document.getElementById('id01','id02','id03','id04','id05','id06');
@@ -54,22 +54,22 @@ window.onclick = function(event) {
 
 
 const show = document.querySelector('#showproduct');
-fetch('http://mekiman.app.ruk-com.cloud/showproduct')
+fetch('http://localhost:3000/showproduct')
                         .then(response => response.json())
                         .then(data => {
                           for (let i = 0; i < data.length; i++) {
-                            show.innerHTML += ` <div class="col-sm">
-        <div class="div1"><center>ไม่มีรูป</center></div>
+                            show.innerHTML += ` <div class="col-sm-4"style="padding:10px">
+        <div class="div1"><center><img src="/image/${data[i].img}" width="100%"></center></div>
         <p style="font-size: 18px">${data[i].product}</p>
         <p style="font-size: 18px">Stock ${data[i].stock}</p>
         
         <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">เช่า</button>
         <div id="id01" class="modal">
   
-          <form class="modal-content animate" style="width: 50%;" action="" method="post">
+          <form class="modal-content animate" style="width: 50%;" action="borrow" method="post">
             <div class="imgcontainer">
               <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-              <img src="/image/tod.jpg" width="50" alt="Avatar" class="avatar">
+              <img src="/image/${data[i].img}" width="100">
             </div>
         
             <div class="container">
@@ -80,8 +80,9 @@ fetch('http://mekiman.app.ruk-com.cloud/showproduct')
             เวลายืม :
                <input type="datetime-local" id="birthdaytime" name="birthdaytime"><br><br>
               <p style="color:red">หมายเหตุ : ให้นักศึกษาจองล่วงหน้าได้ไม่เกิน3วันถ้าเกินระบบจะไม่ทำการอนุมัติ<br>และต้องนำอุปกรณ์มาคืนภายใน19:00</p>
-                
-              <button type="submit">ยืนยัน</button>
+                <input type="text" name="chek" value="sum" style="display:none">
+                <input type="text" name="id" value="${data[i].id}" style="display:none">
+              <input type="submit" value="ยืนยัน">
             </div>
         
            

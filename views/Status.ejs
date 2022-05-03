@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container" style="margin-bottom: 150px;">
+        <div class="table-responsive">
+            <table class="table table-fit mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">NameProduct</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i < result.length; i++) { %>
+                        <tr>
+                            <td style="padding-top: 30px;">
+                                <%= i+1 %>
+                            </td>
+                            <td style="padding-top: 30px;">
+                                <%= result[i].name %>
+                            </td>
+                            <td style="padding-top: 30px;">
+                                <%= result[i].product %>
+                            </td>
+                            <td style="padding-top: 30px;">
+                                <%= result[i].stock %>
+                            </td>
+                           
+                            <td style="padding-top: 30px;">
+                                <%= result[i].status %>
+                            </td>
+                            <td>
+                                <form action="buyaway" method="POST" name="producttobuy">
+                                    <input tyle="text" name="id_product" value="<%= result[i].id %>" style="display:none">
+                                    <input type="submit" class="btn material-icons text-success" value="buy">
+                                </form>
+                                <form action="delectaway" method="POST" name="producttodelect">
+                                    <input tyle="text" name="id_product" value="<%= result[i].id %>" style="display:none">
+                                    <input type="submit" class="btn material-icons text-danger" value="delete">
+                                </form>
+                            </td>
+                        </tr>
+                        <% } %>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

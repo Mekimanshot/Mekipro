@@ -22,32 +22,32 @@
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Status</th>
-                    
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
               
                <% for(var i=0; i < result.length; i++) { %>
                 <tr>
-                    <td style="padding-top: 30px;">
+                    <td>
                         <%= i+1 %>
                     </td>
-                    <td style="padding-top: 30px;">
+                    <td>
                         <%= result[i].user_id %>
                     </td>
-                    <td style="padding-top: 30px;">
+                    <td>
                         <%= result[i].name %>
                     </td>
-                    <td style="padding-top: 30px;">
+                    <td>
                         <%= result[i].email %>
                     </td>
-                    <td style="padding-top: 30px;">
+                    <td>
                         <%= result[i].rank %>
                     </td>
                     <td>
                         
                         <form action="deleteprofile" method="POST" name="producttodelect">
-                            <input tyle="text" name="name_user" value="<%= result[i].name %>" style="display:none">
+                            <input tyle="text" name="user_name" value="<%= result[i].name %>" style="display:none">
                             <input type="submit" class="btn material-icons text-danger" value="delete">
                         </form>
                     </td>

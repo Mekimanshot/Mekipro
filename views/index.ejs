@@ -15,40 +15,55 @@
 </head>
 
 <body>
+
   <%- include('tap')%>
-    <div class="container p-5">
-      <h1 class="text-center mb-5 text-uppercase text-muted">ยินดีต้อนรับเข้าสู่เว็บ ระบบยืม-คืนอุปกรณ์กีฬา</h1>
-      <div class="row">
-        <div class="col-sm-12 bg-light border rounded py-3">
-          <h2 class="text-center">Login</h2>
-          <form action="" method="POST">
-            <div class="form-group">
-              <label for="_email">Email</label>
-              <input type="text" name="user_email" id="_email" class="form-control" placeholder="Email" rnodeequired>
-            </div>
-            <div class="form-group">
-              <label for="_pass">Password</label>
-              <input type="password" name="user_pass" id="_pass" class="form-control" placeholder="Password" required>
-            </div>
-            <% if (locals.login_errors) { login_errors.forEach(function(error_msg){ %>
-              <div class="alert alert-danger" role="alert">
-                <%= error_msg %>
+<div class="image-login"></div>
+   
+      <center>
+        <div class="col-sm-6">
+          <div class="overall3">
+            <div class="form">
+              <div class="circle">
+                <center>
+                  <h1>เข้าสู่ระบบ</h1>
+                </center>
+                <form action="" method="POST">
+                  <div class="form-group">
+                    <label for="_email">Email</label>
+                    <input type="text" name="user_email" id="_email" class="form-control" placeholder="Email"
+                      rnodeequired>
+                  </div>
+                  <div class="form-group">
+                    <label for="_pass">Password</label>
+                    <input type="password" name="user_pass" id="_pass" class="form-control" placeholder="Password"
+                      required>
+                  </div>
+                  <% if (locals.login_errors) { login_errors.forEach(function(error_msg){ %>
+                    <div class="alert alert-danger" role="alert">
+                      <%= error_msg %>
+                    </div>
+                    <% }); } %>
+                      <button type="submit" class="btn btn-primary">Login</button>
+
+                </form>
+
               </div>
-              <% }); } %>
-                <button type="submit" class="btn btn-primary">Login</button>
-                <a class="small" href="/register">Register</a>
-          </form>
+
+            </div>
+          </div>
         </div>
-        <script>
-          fetch('http://mekiman.app.ruk-com.cloud/showusers')
-            .then(response => response.json())
-            .then(data => {
-              console.log(data);
-            }
-            )
-            .catch(error => console.error(error));
-        </script>
-      </div>
+        
+      </center>
+      <script>
+        fetch('http://localhost:3000/showusers')
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+          }
+          )
+          .catch(error => console.error(error));
+      </script>
+    </div>
     </div>
 </body>
 

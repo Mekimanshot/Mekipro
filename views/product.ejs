@@ -6,34 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<%- include('./css/style'); %>
+    
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <body>
-    <div class="container-lgx2" style="padding-top: 40px;min-height:360px;padding-bottom: 50px;">
-
-        <a href="addproduct" class="btn btn-success">Add Product</a>
-
-        
-        <table class="table table-fit mt-5">
+    <%- include('tap3')%>
+    <div class="container-lgx2" style="padding-top: 40px;min-height:360px;padding-bottom: 50px;">  
+        <form>
+        <table class="table table-fit mt-6">
             <thead>
                 <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">NameProduct</th>
-                    <th scope="col">Detail</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Type</th>
-                    <th scope="col"></th>
+                    <th scope="col">No</th>
+                    <th scope="col">image</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">
+                        <a href="addproduct" class="btn btn-success">Add</a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <% for(var i=0; i < result.length; i++) { %>
                     <tr>
-                        <td style="padding-top: 30px;">
+                        <td >
                             <%= i+1 %>
                         </td>
-                        <td style="padding-top: 30px;width: 350px">
+                        <td>
+                            <img src="/image/<%= result[i].img %>" width="100">
+                         </td>
+                        <td>
                             <%= result[i].product %>
                         </td>
-                        <td style="padding-top: 30px;width: 450px;">
+                        <td >
                             <%= result[i].stock %>
                         </td>
                         
@@ -53,5 +58,6 @@
 
             </tbody>
         </table>
+    </form>
 </body>
 </html>
