@@ -9,6 +9,7 @@ const { body, validationResult } = require('express-validator');
 const axios = require('axios');
 const app = express();
 const { redirect } = require('express/lib/response');
+const { request } = require('http');
 /*const con = mysql.createPool({
     host: "node31559-endows.app.ruk-com.cloud",
     user: "root",
@@ -81,7 +82,11 @@ app.get('/addproduct', (req, res, next) => {
 })
 
 app.get('/pro', (req, res, next) => {
-    res.render('pro', { name: req.session.user_name })
+    //ค้างงงงงงงงงงงงงงงงงงงงงงงงงงงงงง
+    con.query("SELECT * FROM `borrow` WHERE id_user = ? ",[req.session.userID],(err, result) => {
+        res.render('pro', { name: req.session.user_name ,result:result});
+        
+    })
 })
 
 app.get("/showproduct", (req, res) => {
@@ -100,16 +105,14 @@ app.post('/deleteprofile', [body('user_name', '').trim().not().isEmpty(),], (req
     res.redirect('user')
 
 })
-app.post('/borrow', [body('chek', '').trim().not().isEmpty(), body('id', '').trim().not().isEmpty(),], (req, res) => {
-    const { chek, id } = req.body
-    console.log(chek, id)
+app.post('/borrow', [body('chek', '').trim().not().isEmpty(), body('id', '').trim().not().isEmpty(),body('birthdaytime', '').trim().not().isEmpty(),], (req, res) => {
+    const { chek, id ,birthdaytime} = req.body
     if (chek == "sum") {
-        //DATE
-        var today = new Date();
-        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date + ' ' + time;
-        console.log(dateTime)
+        con.query('INSERT INTO `borrow`(`id_user`, `id_product`, `date`, `status`) VALUES (?,?,?,?)',[req.session.userID,id, birthdaytime, "รออนุมัติ"],(err, result) => {
+            res.redirect('pro')
+       
+     })
+        
     }
 })
 

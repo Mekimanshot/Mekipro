@@ -57,18 +57,19 @@ const show = document.querySelector('#showproduct');
 fetch('http://localhost:3000/showproduct')
                         .then(response => response.json())
                         .then(data => {
+                          console.log(data)
                           for (let i = 0; i < data.length; i++) {
                             show.innerHTML += ` <div class="col-sm-4"style="padding:10px">
         <div class="div1"><center><img src="/image/${data[i].img}" width="100%"></center></div>
         <p style="font-size: 18px">${data[i].product}</p>
         <p style="font-size: 18px">Stock ${data[i].stock}</p>
         
-        <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">เช่า</button>
-        <div id="id01" class="modal">
+        <button onclick="document.getElementById('${i}').style.display='block'" style="width:auto;">เช่า</button>
+        <div id="${i}" class="modal">
   
           <form class="modal-content animate" style="width: 50%;" action="borrow" method="post">
             <div class="imgcontainer">
-              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+              <span onclick="document.getElementById('${i}').style.display='none'" class="close" title="Close Modal">&times;</span>
               <img src="/image/${data[i].img}" width="100">
             </div>
         
